@@ -13,6 +13,7 @@ except:
 totalCost = 1000000
 downPayment = totalCost * 0.25
 returnRate = 0.04
+monthlyReturnRate = returnRate / 12
 semiAnnualRaise = 0.07
 monthsToDownPayment = 36
 
@@ -53,7 +54,7 @@ while True:
     # at month 0 there would be a raise on the first month.
     for month in range(1, monthsToDownPayment + 1):
         # First, we add our current savings and deposit for the month
-        currentSavings = currentSavings * (1 + returnRate)
+        currentSavings = currentSavings * (1 + monthlyReturnRate)
         currentSavings = currentSavings + monthlyDeposit
 
         # For semi annual raises, we will do the same thing we did
@@ -89,7 +90,7 @@ while True:
     
     # If we have not found our number, then we set the portion that
     # we're going to try next to halfway through the last two numbers.
-    bestPortion = (high + low) / 2
+    bestPortion = int((high + low) / 2)
 
 
 # Remember to print out the portion as a decimal by dividing it
