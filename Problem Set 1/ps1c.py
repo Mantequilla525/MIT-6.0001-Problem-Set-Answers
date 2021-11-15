@@ -18,8 +18,7 @@ monthsToDownPayment = 36
 
 # Binary search variables ---------------------------------------------
 steps = 0
-initialHigh = 10000
-high = initialHigh
+high = 10000
 low = 0
 bestPortion = (high + low) / 2
 epsilon = 100
@@ -38,12 +37,15 @@ while True:
     steps = steps + 1
 
     # Initializing variables back to their starting values to reset them
-    # on each iteration
+    # on each iteration. The reason that we divide by 10000 is because we
+    # are running the search using high integers. Imagine each integer
+    # as a penny. By running it like this, we will only check once for each
+    # "penny", or once for each place in the 0.00 decimal spot. This can
+    # be very confusing, but it is not the main focus of this assignment.
     currentSavings = 0.0
     annualSalary = startingSalary
     monthlySalary = annualSalary / 12
     monthlyDeposit = monthlySalary * (bestPortion / 10000)
-    print(bestPortion / 10000)
 
     # To calculate how much money we would end up saving at a given rate,
     # we will run a for loop 36 times since that is how many months they
@@ -66,14 +68,14 @@ while True:
     # the savings amount by the down payment. If it's more than
     # our epsilon, then we must be over.
     if (currentSavings - downPayment) > epsilon:
-        print('Over')
+        print('Rate:', bestPortion / 10000, ' Over')
         high = bestPortion
 
     # This basically just does the opposite of what the above check
     # does. It takes the savings from the down payment, and if we're
     # still above our epsilon, we must be under.
     elif (downPayment - currentSavings) > epsilon:
-        print('Under')
+        print('Rate:', bestPortion / 10000, ' Under')
         low = bestPortion
 
 
@@ -82,11 +84,15 @@ while True:
     # about the actual difference between them. If the difference
     # is less than our epsilon, then we have found our number :)
     if abs(currentSavings - downPayment) < epsilon:
+        print('Savings rate found! ---------------------')
         break
     
     # If we have not found our number, then we set the portion that
     # we're going to try next to halfway through the last two numbers.
     bestPortion = (high + low) / 2
 
+
+# Remember to print out the portion as a decimal by dividing it
+# by 10000!
 print('Best portion saved:', bestPortion / 10000)
 print('Steps in binary search:', steps)
